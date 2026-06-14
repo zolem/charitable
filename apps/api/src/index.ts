@@ -1,6 +1,7 @@
 import { Hono } from 'hono'
 import { serve } from '@hono/node-server'
 import { pino } from 'pino'
+import { contactsRouter } from './modules/contacts/routes.ts'
 
 const log = pino({ name: 'api' })
 
@@ -16,6 +17,8 @@ app.get('/', (c) => c.json({ ok: true, message: 'Charitable API' }))
 app.get('/healthz', (c) => c.json({ ok: true, status: 'live' }))
 
 app.get('/readyz', (c) => c.json({ ok: true, status: 'ready' }))
+
+app.route('/api/contacts', contactsRouter)
 
 const rawPort = process.env.PORT
 const parsedPort = rawPort !== undefined ? Number(rawPort) : NaN
